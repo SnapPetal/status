@@ -1,0 +1,108 @@
+# Upptime configuration for https://status.thonbecker.biz
+# Docs: https://upptime.js.org/docs/configuration
+# Do not set workflowSchedule — the template default (uptime every 5 minutes) stays in place.
+
+owner: SnapPetal
+repo: status
+
+# Sent on GitHub API requests. Site checks use Upptime's own User-Agent (upptime.js.org)
+# unless a site sets headers. See the Cloudflare note at the bottom of this file.
+user-agent: SnapPetal
+
+# No check-time secrets. GH_PAT is injected by the generated workflows and must not be listed.
+secrets: []
+
+sites:
+  - name: Website
+    url: https://thonbecker.biz
+    # curl (no redirect follow), including User-Agent upptime.js.org: 200
+    expectedStatusCodes:
+      - 200
+
+  - name: App
+    url: https://app.thonbecker.biz
+    # The host itself returns 302 to https://thonbecker.biz. Upptime follows up to 3
+    # redirects by default and would then record the website's 200. Stop here so this
+    # check measures the app host. 200 is also accepted if the app later responds directly.
+    maxRedirects: 0
+    expectedStatusCodes:
+      - 302
+      - 200
+
+  - name: Booking
+    url: https://booking.thonbecker.biz
+    # First hop is 302 to /booking on the same host; that page returns 200.
+    # Default redirect following (3) records the final 200.
+    expectedStatusCodes:
+      - 200
+
+  - name: Nextcloud
+    url: https://cloud.thonbecker.biz/status.php
+    # Lightweight Nextcloud health endpoint. Live body includes "maintenance":false.
+    expectedStatusCodes:
+      - 200
+    __dangerous__body_down_if_text_missing: '"maintenance":false'
+
+  - name: Vault
+    url: https://vault.thonbecker.biz/alive
+    # Vaultwarden /alive. Live response is 200 application/json (server timestamp).
+    expectedStatusCodes:
+      - 200
+
+  - name: Photos API
+    url: https://photos-api.thonbecker.biz/ping
+    # Ente museum API ping. Live body includes "message":"pong".
+    expectedStatusCodes:
+      - 200
+    __dangerous__body_down_if_text_missing: '"message":"pong"'
+
+  - name: Photos
+    url: https://photos.thonbecker.biz
+    # /health and /ping on this host return the SPA HTML shell (200 text/html), not a health check.
+    expectedStatusCodes:
+      - 200
+
+  - name: Search
+    url: https://search.thonbecker.biz
+    # Cloudflare Access. Unauthenticated requests get 302 to
+    # withered-dream-fb5a.cloudflareaccess.com login. Following that redirect yields 200
+    # from the login page, which does not mean SearXNG answered. Treat the Access
+    # redirect itself as up. A direct 200 (Access letting the probe through) is also up.
+    # This cannot see whether SearXNG is healthy behind the login.
+    maxRedirects: 0
+    expectedStatusCodes:
+      - 302
+      - 200
+
+status-website:
+  cname: status.thonbecker.biz
+  baseUrl: "/"
+  name: Thon Becker Status
+  introTitle: "Live status for Thon Becker's sites and services."
+  introMessage: >
+    Checks run every 5 minutes with [Upptime](https://upptime.js.org).
+    This page covers the website, app, booking, Nextcloud, Vaultwarden, Ente photos, and search.
+    Incident history is in [SnapPetal/status](https://github.com/SnapPetal/status).
+    Search sits behind Cloudflare Access, so a green Search check means the Access login redirect responded, not that a signed-in search succeeded.
+  navbar:
+    - title: Status
+      href: /
+    - title: GitHub
+      href: https://github.com/SnapPetal/status
+
+# Cloudflare: probed from this environment on 2026-10-03 with User-Agent upptime.js.org.
+# None of the hosts returned a 403/503 challenge (no cf-mitigated header). GitHub-hosted
+# runners are a different IP pool and sometimes get challenged anyway. If Uptime CI then
+# records 403 or 503 with a Cloudflare challenge body, do not lower Security Level or
+# disable Bot Fight Mode. Add one Skip custom rule instead:
+#
+#   1. openssl rand -hex 24   # token stays out of git; store it as Actions secret UPPTIME_UA_TOKEN
+#   2. Add UPPTIME_UA_TOKEN to the secrets: list above.
+#   3. On each site, set headers: ["User-Agent: UpptimeStatusCheck $UPPTIME_UA_TOKEN"]
+#   4. Cloudflare → Security → WAF → Custom rules → Create rule
+#        Name: Skip Upptime status checks
+#        Expression: (http.user_agent contains "UpptimeStatusCheck <same token>")
+#        Action: Skip
+#        Skip: All remaining custom rules, Super Bot Fight Mode, Browser Integrity Check,
+#              Security Level, Rate limiting rules, Managed rules
+#   Match only that User-Agent. Do not skip by country, ASN, or URI path.
