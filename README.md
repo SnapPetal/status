@@ -6,15 +6,15 @@ Configuration lives in [`.upptimerc.yml`](./.upptimerc.yml). Setup CI rewrites t
 
 Endpoints:
 
-| Service | URL |
-| --- | --- |
-| Website | https://thonbecker.biz |
-| App | https://app.thonbecker.biz |
-| Booking | https://booking.thonbecker.biz |
-| Nextcloud | https://cloud.thonbecker.biz/status.php |
-| Vault | https://vault.thonbecker.biz/alive |
-| Photos API | https://photos-api.thonbecker.biz/ping |
-| Photos | https://photos.thonbecker.biz |
-| Search | https://search.thonbecker.biz |
+| Service    | URL                                     |
+| ---------- | --------------------------------------- |
+| Website    | https://thonbecker.biz                  |
+| App        | https://app.thonbecker.biz              |
+| Booking    | https://booking.thonbecker.biz          |
+| Nextcloud  | https://cloud.thonbecker.biz/status.php |
+| Vault      | https://vault.thonbecker.biz/alive      |
+| Photos API | https://photos-api.thonbecker.biz/ping  |
+| Photos     | https://photos.thonbecker.biz           |
+| Search     | https://search.thonbecker.biz           |
 
 Search is behind Cloudflare Access. Its check treats the Access login redirect as up and does not prove SearXNG itself answered.
