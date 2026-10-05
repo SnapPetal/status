@@ -75,8 +75,11 @@ sites:
       - 200
 
 status-website:
+  # Custom domain is the site root. Omit baseUrl.
+  # Upptime joins links as `${cname}${baseUrl}/history/<slug>`, so "/"
+  # becomes //history/<slug> and the history route does not match.
+  # Set baseUrl only for a GitHub Pages project path (for example /status).
   cname: status.thonbecker.biz
-  baseUrl: "/"
   name: Thon Becker Status
   introTitle: "Live status for Thon Becker's sites and services."
   introMessage: >
