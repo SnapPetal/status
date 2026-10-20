@@ -36,12 +36,27 @@ sites:
     expectedStatusCodes:
       - 200
 
-  - name: Nextcloud
-    url: https://cloud.thonbecker.biz/status.php
-    # Lightweight Nextcloud health endpoint. Live body includes "maintenance":false.
+  - name: Files
+    url: https://files.thonbecker.biz
+    # OpenCloud web UI, proxied by Cloudflare. A direct 200 is up. Redirects
+    # (3xx) are also up: Cloudflare or OpenCloud may answer with one. Upptime
+    # follows up to 3 redirects and records the final code, so a redirect that
+    # lands on 200 is up, and a terminal 3xx is up. Other Cloudflare codes
+    # (challenge 403/503, origin 52x) stay down.
     expectedStatusCodes:
       - 200
-    __dangerous__body_down_if_text_missing: '"maintenance":false'
+      - 301
+      - 302
+      - 303
+      - 304
+      - 307
+      - 308
+
+  - name: Mail
+    url: https://mail.thonbecker.biz
+    # Mailcow web UI. Live response is 200 text/html (title "mail UI").
+    expectedStatusCodes:
+      - 200
 
   - name: Vault
     url: https://vault.thonbecker.biz/alive
@@ -84,9 +99,10 @@ status-website:
   introTitle: "Live status for Thon Becker's sites and services."
   introMessage: >
     Checks run every 5 minutes with [Upptime](https://upptime.js.org).
-    This page covers the website, app, booking, Nextcloud, Vaultwarden, Ente photos, and search.
+    This page covers the website, app, booking, Files, Mail, Vaultwarden, Ente photos, and search.
     Incident history is in [SnapPetal/status](https://github.com/SnapPetal/status).
     Search sits behind Cloudflare Access, so a green Search check means the Access login redirect responded, not that a signed-in search succeeded.
+    Files is OpenCloud behind Cloudflare, so a green Files check means the host returned 200 or a redirect.
   navbar:
     - title: Status
       href: /
