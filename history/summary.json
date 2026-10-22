@@ -90,6 +90,24 @@
     "dailyMinutesDown": {}
   },
   {
+    "name": "Office",
+    "url": "https://office.thonbecker.biz/hosting/discovery",
+    "icon": "https://icons.duckduckgo.com/ip3/office.thonbecker.biz.ico",
+    "slug": "office",
+    "status": "up",
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 0,
+    "timeDay": 0,
+    "timeWeek": 0,
+    "timeMonth": 0,
+    "timeYear": 0,
+    "dailyMinutesDown": {}
+  },
+  {
     "name": "Vault",
     "url": "https://vault.thonbecker.biz/alive",
     "icon": "https://icons.duckduckgo.com/ip3/vault.thonbecker.biz.ico",
