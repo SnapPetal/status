@@ -58,6 +58,12 @@ sites:
     expectedStatusCodes:
       - 200
 
+  - name: Office
+    url: https://office.thonbecker.biz/hosting/discovery
+    # Euro-Office WOPI discovery. Live response is 200 text/xml (wopi-discovery).
+    expectedStatusCodes:
+      - 200
+
   - name: Vault
     url: https://vault.thonbecker.biz/alive
     # Vaultwarden /alive. Live response is 200 application/json (server timestamp).
@@ -99,7 +105,7 @@ status-website:
   introTitle: "Live status for Thon Becker's sites and services."
   introMessage: >
     Checks run every 5 minutes with [Upptime](https://upptime.js.org).
-    This page covers the website, app, booking, Files, Mail, Vaultwarden, Ente photos, and search.
+    This page covers the website, app, booking, Files, Mail, Office, Vaultwarden, Ente photos, and search.
     Incident history is in [SnapPetal/status](https://github.com/SnapPetal/status).
     Search sits behind Cloudflare Access, so a green Search check means the Access login redirect responded, not that a signed-in search succeeded.
     Files is OpenCloud behind Cloudflare, so a green Files check means the host returned 200 or a redirect.
